@@ -28,6 +28,13 @@
     "description" : "Giới thiệu chi tiết hơn về website bán hàng tại chỗ này"
   },
 
+  "submit-data" : {
+    "SKU" : "",
+    "customer" : {
+        "name" : "",
+        "phone" : ""
+    }
+  },
 
   "products" : [
     {

@@ -194,12 +194,32 @@
                                                   <img src="{{../site.ref-domain}}{{this.image}}" alt=""/>
                                                 </div>
                                                 <div class=".off-lg-7 .off-log-7 col-lg-5 col-md-5">
+                                                  <input type="hidden" value="{{this.SKU}}" rv-value="SKU">
                                                   <span class="slider-subtitle5 black-text no-margin-bottom">{{this.name}}</span>
                                                   <span class="slider-subtitle6 black-text no-margin-bottom">Giá:{{this.price}} VNĐ</span>
                                                   <div class="separator-line no-margin-lr"></div>
+                                                  <div class="form-group no-margin-bottom">
+                                                      <!-- label  -->
+                                                      <label for="username" class="text-uppercase" >Tên Khách Hàng</label>
+                                                      <!-- end label  -->
+                                                      <!-- input  -->
+                                                      <input type="text" name="username" rv-value="customer.name">
+                                                      <!-- end input  -->
+                                                  </div>
+                                                  <div class="form-group no-margin-bottom">
+                                                      <!-- label  -->
+                                                      <label for="phone" class="text-uppercase">Số Điện Thoại</label>
+                                                      <!-- end label  -->
+                                                      <!-- input  -->
+                                                      <input type="text" name="phone" rv-value="customer.phone">
+                                                      <!-- end input  -->
+                                                  </div>
+                                                  <!-- <label for="username" class="text-uppercase">Tên Khách Hàng</label>
                                                   <input type="text" class="form-control input-round big-input text-lowercase" placeholder="Tên Khách Hàng">
-                                                  <input type="text" class="form-control input-round big-input text-lowercase" placeholder="Số Điện Thoại">
-                                                  <a class="highlight-button btn btn-very-small button popup-modal-dismiss no-margin" href="#">Mua Nhanh</a>
+                                                  <label for="username" class="text-uppercase">Số Điện Thoại</label>
+                                                  <input type="text" class="form-control input-round big-input text-lowercase" placeholder="Số Điện Thoại"> -->
+                                                  <button class="highlight-button btn button popup-modal-dismiss no-margin" onclick="Gui()">Mua</button>
+
                                                 </div>
                                               </div>
 
@@ -229,7 +249,27 @@
             </div>
         </section>
         <!-- end content section -->
+        <script src="https://rawgit.com/mikeric/rivets/v0.8.1/dist/rivets.bundled.min.js"></script>
+        <script type="text/javascript">
+            var  data = {
+                SKU : "",
+                customer : {
+                    name : "",
+                    phone : ""
+                }
+              };
 
+            // thêm khả năng so sánh giá trị cho rivet sử dụng với |
+            rivets.formatters['=='] = function(value, arg) {
+              return value == arg;
+            };
+
+            rivets.bind(document.querySelector('body'), data);
+
+            function Gui() {
+              console.log('gui data', data);
+            }
+        </script>
         <!-- footer -->
         <footer>
             <div class=" bg-white footer-top">
