@@ -174,12 +174,12 @@
                             <!-- shop item -->
                             <div class="col-md-4 col-sm-6">
                                 <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
-                                    <a href="shop-single-product.html"><img src="{{../site.ref-domain}}{{this.image}}" alt=""/></a>
+                                    <a class="modal-popup no-margin-bottom" href="#modal-popup-{{this.SKU}}"><img src="{{../site.ref-domain}}{{this.image}}" alt=""/></a>
                                     <span class="product-name text-uppercase"><a href="shop-single-product.html">{{this.name}}</a></span>
                                     {{#if this.old_price}}
-                                      <span class="price black-text"><del>${{this.old_price}}</del>${{this.price}}</span>
+                                      <span class="price black-text"><del>{{this.old_price}}đ</del>{{this.price}}đ</span>
                                     {{else}}
-                                      <span class="price black-text">${{this.price}}</span>
+                                      <span class="price black-text">{{this.price}}đ</span>
                                     {{/if}}
 
                                     <!-- <span class="onsale onsale-style-2">Sale</span> -->
@@ -187,7 +187,24 @@
                                         <div class="product-share">
                                             <!-- <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Wishlist"><i class="fa fa-heart-o"></i></a>
                                             <a href="#" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Add to Compare"><i class="fa fa-refresh"></i></a> -->
-                                            <a href="shop-cart.html" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Mua Nhanh"><i class="fa fa-shopping-cart"></i></a>
+                                            <a class="highlight-button btn btn-small no-margin-right modal-popup no-margin-bottom" href="#modal-popup-{{this.SKU}}">Mua Nhanh</a>
+                                            <div id="modal-popup-{{this.SKU}}" class="white-popup-block mfp-hide col-lg-8 col-md-8 col-sm-9 col-xs-11 center-col bg-white text-center modal-popup-main">
+                                              <div class="row" >
+                                                <div class="col-lg-7 col-md-7 bg-white ">
+                                                  <img src="{{../site.ref-domain}}{{this.image}}" alt=""/>
+                                                </div>
+                                                <div class=".off-lg-7 .off-log-7 col-lg-5 col-md-5">
+                                                  <span class="slider-subtitle5 black-text no-margin-bottom">{{this.name}}</span>
+                                                  <span class="slider-subtitle6 black-text no-margin-bottom">Giá:{{this.price}} VNĐ</span>
+                                                  <div class="separator-line no-margin-lr"></div>
+                                                  <input type="text" class="form-control input-round big-input text-lowercase" placeholder="Tên Khách Hàng">
+                                                  <input type="text" class="form-control input-round big-input text-lowercase" placeholder="Số Điện Thoại">
+                                                  <a class="highlight-button btn btn-very-small button popup-modal-dismiss no-margin" href="#">Mua Nhanh</a>
+                                                </div>
+                                              </div>
+
+                                            </div>
+                                            <!-- <a href="shop-cart.html" class="highlight-button-dark btn btn-small no-margin-right quick-buy-btn" title="Mua Nhanh"><i class="fa fa-shopping-cart"></i></a> -->
                                         </div>
                                     </div>
                                 </div>

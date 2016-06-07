@@ -31,31 +31,35 @@
 
   "products" : [
     {
+       "SKU" : "01",
        "name" : "MT Áo cánh tay",
        "image" : "images/product9.jpg",
        "url" : "/",
-       "price" : "450000",
-       "old_price" : "750.00"
+       "price" : "450,000",
+       "old_price" : "750,000"
     },
     {
+       "SKU" : "02",
        "name" : "Givenchy Low",
        "image" : "images/product16.jpg",
        "url" : "/",
-       "price" : "500",
+       "price" : "200,000",
        "old_price" : ""
     },
     {
+       "SKU" : "03",
        "name" : "MT Fashsion",
        "image" : "images/product16.jpg",
        "url" : "/",
-       "price" : "300000",
+       "price" : "300,000",
        "old_price" : ""
     },
     {
+       "SKU" : "04",
        "name" : "MT Fashsion Quần Jean",
        "image" : "images/product16.jpg",
        "url" : "/",
-       "price" : "100000",
+       "price" : "350,000",
        "old_price" : ""
     }
 
