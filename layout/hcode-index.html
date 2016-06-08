@@ -145,7 +145,31 @@
             </div>
         </section>
         <!-- end head section -->
+        <script src="https://rawgit.com/mikeric/rivets/v0.8.1/dist/rivets.bundled.min.js"></script>
+        <script type="text/javascript">
+            var data = {
+                SKU : "",
+                customer : {
+                    name : "",
+                    phone : "",
+                    email: ""
+                }
+            };
+            // thêm khả năng so sánh giá trị cho rivet sử dụng với |
+            rivets.formatters['=='] = function(value, arg) {
+                return value == arg;
+            };
 
+            rivets.formatters.set = function() {
+                var args = Array.prototype.slice.call(arguments);
+                args.splice(0, 1);
+                return function(evt) {
+                    var rivetData = Array.prototype.splice.call(arguments, 1, 2)[0]; // remove event Object
+                    var cpy = args.slice();
+                    return rivetData[cpy[0]] = cpy[1];
+                }
+            }
+        </script>
         <!-- content section -->
         <section>
             <div class="container">
@@ -172,7 +196,7 @@
                         <div class="product-listing margin-three">
                           {{#each products}}
                             <!-- shop item -->
-                            <div class="col-md-4 col-sm-6">
+                            <div class="col-md-4 col-sm-6" rv-on-click="|set 'SKU' {{SKU}}">
                                 <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
                                     <a class="modal-popup no-margin-bottom" href="#modal-popup-{{this.SKU}}"><img src="{{../site.ref-domain}}{{this.image}}" alt=""/></a>
                                     <span class="product-name text-uppercase"><a href="shop-single-product.html">{{this.name}}</a></span>
@@ -214,6 +238,14 @@
                                                       <input type="text" name="phone" rv-value="customer.phone">
                                                       <!-- end input  -->
                                                   </div>
+                                                  <div class="form-group no-margin-bottom">
+                                                      <!-- label  -->
+                                                      <label for="email" class="text-uppercase">Email</label>
+                                                      <!-- end label  -->
+                                                      <!-- input  -->
+                                                      <input type="text" name="email" rv-value="customer.email">
+                                                      <!-- end input  -->
+                                                  </div>
                                                   <!-- <label for="username" class="text-uppercase">Tên Khách Hàng</label>
                                                   <input type="text" class="form-control input-round big-input text-lowercase" placeholder="Tên Khách Hàng">
                                                   <label for="username" class="text-uppercase">Số Điện Thoại</label>
@@ -249,24 +281,29 @@
             </div>
         </section>
         <!-- end content section -->
-        <script src="https://rawgit.com/mikeric/rivets/v0.8.1/dist/rivets.bundled.min.js"></script>
-        <script type="text/javascript">
-            var  data = {
-                SKU : "",
-                customer : {
-                    name : "",
-                    phone : ""
-                }
-              };
 
-            // thêm khả năng so sánh giá trị cho rivet sử dụng với |
-            rivets.formatters['=='] = function(value, arg) {
-              return value == arg;
-            };
+        <script type="text/javascript">
+
 
             rivets.bind(document.querySelector('body'), data);
 
             function Gui() {
+                var rq = new XMLHttpRequest();
+                rq.open('POST', 'http://admincp.lici.vn/api/order', true);
+                rq.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                rq.send(JSON.stringify({
+                    "customer" :
+                    {
+                        "name" : data.customer.name,
+                        "phone" : data.customer.phone,
+                        "email" : data.customer.email
+                    },
+                    "order" :
+                    {
+                        "SKU" : data.SKU
+                    }
+                }));
+
               console.log('gui data', data);
             }
         </script>
