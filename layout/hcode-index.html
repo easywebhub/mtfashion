@@ -147,25 +147,60 @@
         <!-- end head section -->
         <script src="https://rawgit.com/mikeric/rivets/v0.8.1/dist/rivets.bundled.min.js"></script>
         <script type="text/javascript">
+//            var data = {
+//                SKU : "",
+//                customer : {
+//                    name : "",
+//                    phone : "",
+//                    email: ""
+//                }
+//            };
             var data = {
-                SKU : "",
-                customer : {
-                    name : "",
-                    phone : "",
-                    email: ""
+                "post": {
+                    "customer" : {
+                        "name" : "",
+                        "phone" : "",
+                        "email" : ""
+                    },
+                    "order" : {
+                        "SKU" : "",
+                        "productName": "",
+                        "productPrice": ""
+                    }
                 }
             };
+
+            data.selectProduct = function(sku, productName, productPrice) {
+                console.log('chon san pham', sku, productName, productPrice);
+                data.post.order.SKU = sku;
+                data.post.order.productName = productName;
+                data.post.order.productPrice = productPrice;
+            };
+
             // thêm khả năng so sánh giá trị cho rivet sử dụng với |
             rivets.formatters['=='] = function(value, arg) {
                 return value == arg;
             };
 
+            rivets.formatters.with = function(target) {
+                var args = Array.prototype.slice.call(arguments);
+                args.splice(0,1);
+
+                return function(evt) {
+                    var cpy = args.slice();
+                    Array.prototype.push.apply(cpy, Array.prototype.slice.call(arguments));
+                    return target.apply(this, cpy)
+                }
+            };
+
+            // chi co the set 1 property
             rivets.formatters.set = function() {
                 var args = Array.prototype.slice.call(arguments);
                 args.splice(0, 1);
                 return function(evt) {
                     var rivetData = Array.prototype.splice.call(arguments, 1, 2)[0]; // remove event Object
                     var cpy = args.slice();
+                    // TODO support dot in key to access sub property
                     return rivetData[cpy[0]] = cpy[1];
                 }
             }
@@ -196,7 +231,7 @@
                         <div class="product-listing margin-three">
                           {{#each products}}
                             <!-- shop item -->
-                            <div class="col-md-4 col-sm-6" rv-on-click="|set 'SKU' {{SKU}}">
+                            <div class="col-md-4 col-sm-6" rv-on-click="selectProduct |with {{SKU}} '{{name}}' '{{price}}'">
                                 <div class="home-product text-center position-relative overflow-hidden margin-ten no-margin-top">
                                     <a class="modal-popup no-margin-bottom" href="#modal-popup-{{this.SKU}}"><img src="{{../site.ref-domain}}{{this.image}}" alt=""/></a>
                                     <span class="product-name text-uppercase"><a href="shop-single-product.html">{{this.name}}</a></span>
@@ -218,7 +253,6 @@
                                                   <img src="{{../site.ref-domain}}{{this.image}}" alt=""/>
                                                 </div>
                                                 <div class=".off-lg-7 .off-log-7 col-lg-5 col-md-5">
-                                                  <input type="hidden" value="{{this.SKU}}" rv-value="SKU">
                                                   <span class="slider-subtitle5 black-text no-margin-bottom">{{this.name}}</span>
                                                   <span class="slider-subtitle6 black-text no-margin-bottom">Giá:{{this.price}} VNĐ</span>
                                                   <div class="separator-line no-margin-lr"></div>
@@ -227,7 +261,7 @@
                                                       <label for="username" class="text-uppercase" >Tên Khách Hàng</label>
                                                       <!-- end label  -->
                                                       <!-- input  -->
-                                                      <input type="text" name="username" rv-value="customer.name">
+                                                      <input type="text" name="username" rv-value="post.customer.name">
                                                       <!-- end input  -->
                                                   </div>
                                                   <div class="form-group no-margin-bottom">
@@ -235,7 +269,7 @@
                                                       <label for="phone" class="text-uppercase">Số Điện Thoại</label>
                                                       <!-- end label  -->
                                                       <!-- input  -->
-                                                      <input type="text" name="phone" rv-value="customer.phone">
+                                                      <input type="text" name="phone" rv-value="post.customer.phone">
                                                       <!-- end input  -->
                                                   </div>
                                                   <div class="form-group no-margin-bottom">
@@ -243,7 +277,7 @@
                                                       <label for="email" class="text-uppercase">Email</label>
                                                       <!-- end label  -->
                                                       <!-- input  -->
-                                                      <input type="text" name="email" rv-value="customer.email">
+                                                      <input type="text" name="email" rv-value="post.customer.email">
                                                       <!-- end input  -->
                                                   </div>
                                                   <!-- <label for="username" class="text-uppercase">Tên Khách Hàng</label>
@@ -283,28 +317,15 @@
         <!-- end content section -->
 
         <script type="text/javascript">
-
-
             rivets.bind(document.querySelector('body'), data);
 
             function Gui() {
                 var rq = new XMLHttpRequest();
-                rq.open('POST', 'http://admincp.lici.vn/api/order', true);
+//                rq.open('POST', 'http://admincp.lici.vn/api/order', true);
+                rq.open('POST', 'http://127.0.0.1:8883/api/order', true);
                 rq.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-                rq.send(JSON.stringify({
-                    "customer" :
-                    {
-                        "name" : data.customer.name,
-                        "phone" : data.customer.phone,
-                        "email" : data.customer.email
-                    },
-                    "order" :
-                    {
-                        "SKU" : data.SKU
-                    }
-                }));
-
-              console.log('gui data', data);
+                rq.send(JSON.stringify(data.post));
+                console.log('gui data', data.post);
             }
         </script>
         <!-- footer -->
