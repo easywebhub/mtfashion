@@ -321,8 +321,7 @@
 
             function Gui() {
                 var rq = new XMLHttpRequest();
-//                rq.open('POST', 'http://admincp.lici.vn/api/order', true);
-                rq.open('POST', 'http://127.0.0.1:8883/api/order', true);
+                rq.open('POST', 'http://admincp.lici.vn/api/order', true);
                 rq.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
                 rq.send(JSON.stringify(data.post));
                 console.log('gui data', data.post);
