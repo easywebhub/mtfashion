@@ -237,14 +237,6 @@
         <!-- end head section -->
         <script src="https://rawgit.com/mikeric/rivets/v0.8.1/dist/rivets.bundled.min.js"></script>
         <script type="text/javascript">
-//            var data = {
-//                SKU : "",
-//                customer : {
-//                    name : "",
-//                    phone : "",
-//                    email: ""
-//                }
-//            };
             var data = {
                 "post": {
                     "customer" : {
@@ -261,7 +253,6 @@
             };
 
             data.selectProduct = function(sku, productName, productPrice) {
-                console.log('chon san pham', sku, productName, productPrice);
                 data.post.order.SKU = sku;
                 data.post.order.productName = productName;
                 data.post.order.productPrice = productPrice;
@@ -591,7 +582,6 @@
                 rq.open('POST', 'http://admincp.lici.vn/api/order', true);
                 rq.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
                 rq.send(JSON.stringify(data.post));
-                console.log('gui data', data.post);
             }
         </script>
         <!-- footer -->
